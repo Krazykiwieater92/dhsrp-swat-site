@@ -84,6 +84,9 @@ export default function RootLayout({
               <MenubarItem>
                 <Link href="/staff/LAPD-Chief">LAPD Chief of Police</Link>
               </MenubarItem>
+              <MenubarItem>
+                <Link href="/staff/DHSRP-Overlord">DHSRP Owner/Founder</Link>
+              </MenubarItem>
             </MenubarContent>
           </MenubarMenu>
         </Menubar>
