@@ -11,7 +11,7 @@ export default function Page() {
         DHSRP framework. With a career that spans decades of law enforcement
         experience, Chief Lunt is known for his strategic vision, commitment to
         justice, and unbreakable integrity. As the head of the LAPD, he oversees
-        the safety and security of Los Angeles, ensuring that the city’s streets
+        the safety and security of Los Angeles, ensuring that the citys streets
         remain under control, even in the face of overwhelming challenges. With
         a reputation built on fairness, discipline, and relentless pursuit of
         justice, Chief Lunt is the backbone of the department, guiding his
@@ -19,7 +19,7 @@ export default function Page() {
         leadership is focused on fostering a culture of respect,
         professionalism, and tactical excellence, pushing the department to
         continuously evolve and adapt to the complex urban environment they
-        serve. Chief Lunt’s leadership is defined by his hands-on approach to
+        serve. Chief Lunts leadership is defined by his hands-on approach to
         policing and his ability to connect with officers at every level,
         ensuring they have the support, training, and resources they need to
         succeed. He is deeply committed to the well-being of his officers and
@@ -29,7 +29,7 @@ export default function Page() {
       </h2>
       <div className="mx-auto ">
         <h2 className="font-bold text-3xl mt-10 mb-10 mx-auto  max-w-300">
-          Under Chief B. Lunt’s command, the LAPD stands as a symbol of
+          Under Chief B. Lunts command, the LAPD stands as a symbol of
           unwavering strength, integrity, and excellence in law enforcement.
         </h2>{" "}
       </div>
