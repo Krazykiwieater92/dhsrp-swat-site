@@ -7,6 +7,8 @@ import {
   MenubarMenu,
   MenubarTrigger,
 } from "@/components/ui/menubar";
+import { Analytics } from "@vercel/analytics/react";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -21,6 +23,7 @@ export default function RootLayout({
               <Link href="/">Home</Link>
             </MenubarTrigger>
           </MenubarMenu>
+
           <MenubarMenu>
             <MenubarTrigger>
               <Link href="/sop">Pages</Link>
@@ -59,7 +62,32 @@ export default function RootLayout({
               </MenubarItem>
             </MenubarContent>
           </MenubarMenu>
+          <MenubarMenu>
+            <MenubarTrigger>Swat Leadership</MenubarTrigger>
+            <MenubarContent>
+              <MenubarItem>
+                <Link href="/staff/commander">Swat Commander</Link>
+              </MenubarItem>
+              <MenubarItem>
+                <Link href="/staff/supervisor">Swat Supervisor</Link>
+              </MenubarItem>
+              <MenubarItem>
+                <Link href="/staff/team-leader-50-david">
+                  Swat Team Leader 50-David
+                </Link>
+              </MenubarItem>
+              <MenubarItem>
+                <Link href="/staff/team-leader-40-david">
+                  Swat Team Leader 40-David
+                </Link>
+              </MenubarItem>
+              <MenubarItem>
+                <Link href="/staff/LAPD-Chief">LAPD Chief of Police</Link>
+              </MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
         </Menubar>
+        <Analytics />
         {children}
       </body>
     </html>
