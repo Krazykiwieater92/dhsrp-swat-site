@@ -6,7 +6,7 @@ export default function Page() {
           The SWAT Supervisor has not been picked yet.
         </h1>
       </div>
-      <div className="">
+      <div className="flex">
         <h1 className="mx-auto mt-20 font-bold text-3xl">
           Stay tuned for updates...
         </h1>

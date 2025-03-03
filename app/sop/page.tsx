@@ -3,9 +3,11 @@ import { cn } from "@/lib/utils";
 export default function Page() {
   return (
     <>
-      <h1 className="mx-auto mt-15 font-bold text-5xl">
-        The SWAT Documents page
-      </h1>
+      <div className="flex">
+        <h1 className="mx-auto mt-15 font-bold text-5xl">
+          The SWAT Documents page
+        </h1>
+      </div>
       <BentoGrid className="mt-10 mx-auto max-w-4xl gap-y-40">
         <div className="max-w-xs w-full group/card">
           <a href="https://docs.google.com/document/d/1C2yyHwFWdlzsUhD3iqaYpgxX8WXMYn85G2BAYzcSR9A/edit?tab=t.0">

@@ -25,8 +25,8 @@ export default function Page() {
         about building a brotherhood of elite operators who trust each other
         with their lives.{" "}
       </h2>
-      <div className="mx-auto ">
-        <h2 className="font-bold text-3xl mt-10">
+      <div className="flex">
+        <h2 className="font-bold text-3xl mt-10 mx-auto">
           Under his command, DHSRP SWAT isn’t just a team—it’s an unstoppable
           force.
         </h2>{" "}
