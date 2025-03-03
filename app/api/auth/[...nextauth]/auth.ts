@@ -8,7 +8,13 @@ interface MyDiscordProfile extends Profile {
   global_name?: string;
 }
 
-const ALLOWED_DISCORD_IDS = ["324173086565990402"];
+const ALLOWED_DISCORD_IDS = [
+  "324173086565990402",
+  "294865385780412416",
+  "457475171796647937",
+  "385530517254176781",
+  "321194092899860481",
+];
 
 export const authOptions = {
   providers: [
