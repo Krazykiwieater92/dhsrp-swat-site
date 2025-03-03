@@ -1,7 +1,15 @@
 "use client";
 import { useSession } from "next-auth/react";
-import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { signOut } from "next-auth/react";
+import { Button } from "@heroui/button";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+} from "@heroui/dropdown";
+import { DiscordAuth } from "@/app/login/discordauth";
+
 export default function UsernameDisplay() {
   const { data: session, status } = useSession();
 
@@ -10,7 +18,7 @@ export default function UsernameDisplay() {
   }
 
   if (!session) {
-    return null; // Don't render anything if not logged in
+    return <DiscordAuth />; // Don't render anything if not logged in
   }
 
   const handleClick = () => {
@@ -19,32 +27,27 @@ export default function UsernameDisplay() {
   };
 
   return (
-    <div className="fixed top-4 right-4">
-      <Menu>
-        <MenuButton
-          onClick={handleClick}
-          className="text-white font-bold bg-transparent border-none cursor-pointer m-4 mr-10"
-        >
-          {session.user?.name}
-        </MenuButton>
-        <MenuItems anchor="bottom">
-          <MenuItem>
-            <button className="block data-[focus]:bg-blue-100" onClick={() => signOut()}>
-              Sign Out
-            </button>
-          </MenuItem>
-          <MenuItem>
-            <a className="block data-[focus]:bg-blue-100" href="/support">
-              Support
-            </a>
-          </MenuItem>
-          <MenuItem>
-            <a className="block data-[focus]:bg-blue-100" href="/license">
-              License
-            </a>
-          </MenuItem>
-        </MenuItems>
-      </Menu>
+    <div className="fixed top-3 right-4">
+      <Dropdown className="bg-gray-900/60 backdrop-blur rounded-lg mx-auto ">
+        <DropdownTrigger>
+          <Button
+            variant="shadow"
+            onClick={handleClick}
+            className="text-white rounded-lg font-bold bg-gray-900 border-none cursor-pointer m-4 mr-10"
+          >
+            {session.user?.name}
+          </Button>
+        </DropdownTrigger>
+        <DropdownMenu aria-label="Static Actions">
+          <DropdownItem
+            key="signout"
+            onClick={() => signOut()}
+            className="text-red-500 hover:text-red-700 hover:bg-gray-600 rounded-lg"
+          >
+            Sign Out
+          </DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
     </div>
   );
 }

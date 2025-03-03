@@ -10,7 +10,7 @@ export function DiscordAuth() {
           callbackUrl: "/",
         })
       }
-      className="px-4 py-2 w-[60%] mx-auto mt-[6%] rounded-md border border-slate-400 backdrop-blur bg-slate-900/60 text-slate-200 text-sm hover:-translate-y-1 transform transition duration-200 hover:shadow-md flex items-center justify-center space-x-2"
+      className="px-4 py-2 w-[10%] mx-auto mr-10 mt-5 rounded-lg border border-slate-400 backdrop-blur bg-slate-900/60 text-slate-200 text-sm hover:-translate-y-1 transform transition duration-200 hover:shadow-md flex items-center justify-center space-x-2"
     >
       <AiOutlineDiscord className="text-xl" />
       <span>Login with Discord</span>

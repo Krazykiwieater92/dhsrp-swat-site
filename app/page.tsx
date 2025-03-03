@@ -1,11 +1,10 @@
-"use client"
-import { SessionProvider } from "next-auth/react";
+import SessionProvider from "@/components/SessionProvider";
 
-export default function Home() {
+export default async function Home() {
   return (
     <SessionProvider>
-      <div className="flex flex-col mx-auto items-center  min-h-screen space-y-6 mt-10 ">
-        <h1 className="text-5xl font-bold mt-10">
+      <div className="flex flex-col mx-auto items-center  min-h-screen space-y-6 mt-14 ">
+        <h1 className="text-5xl font-bold mt-11">
           Welcome to the SWAT Family.
         </h1>
         <h2 className="text-2xl max-w-[35%] mt-10">
