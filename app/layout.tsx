@@ -13,7 +13,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className="bg-zinc-950 flex flex-col min-h-screen ">
+      <body className="bg-zinc-950 flex flex-col min-h-screen text-zinc-300">
         <SessionProvider session={session}>
           <NavbarReal />
 
