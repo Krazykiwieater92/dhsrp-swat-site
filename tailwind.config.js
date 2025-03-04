@@ -1,11 +1,11 @@
-const {heroui} = require('@heroui/theme');
+const {heroui} = require("@heroui/react");
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
     "./app/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/@heroui/theme/dist/components/(card|divider|skeleton|ripple).js"
+    "./node_modules/@heroui/theme/dist/components/(card|divider|dropdown|skeleton|user|ripple|menu|popover|button|spinner|avatar).js"
   ],
     theme: {
       extend: {

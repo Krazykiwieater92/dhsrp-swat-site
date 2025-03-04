@@ -13,7 +13,7 @@ export default function NavbarReal() {
   const { data: session, status } = useSession();
   return (
     <div className="flex m-3">
-      <Menubar className="fixed top-7 mb-3 left-1/2 transform -translate-x-1/2 backdrop-blur border border-gray-300 shadow-lg rounded-md mx-auto items-top justify-center z-50 ">
+      <Menubar className="fixed top-7 mb-3 left-1/2 transform -translate-x-1/2 backdrop-blur border border-zinc-700 shadow-lg rounded-md mx-auto items-top justify-center z-50 ">
         <MenubarMenu>
           <MenubarTrigger>
             <Link href="/">Home</Link>
