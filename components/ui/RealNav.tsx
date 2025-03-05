@@ -85,7 +85,11 @@ export default function NavbarReal() {
             </MenubarItem>
           </MenubarContent>
         </MenubarMenu>
-
+        <MenubarMenu>
+          <MenubarTrigger>
+            <Link href="/ticketpage`">Tickets</Link>
+          </MenubarTrigger>
+        </MenubarMenu>
         {status === "authenticated" ? (
           <MenubarMenu>
             <MenubarTrigger>{session?.user?.name}</MenubarTrigger>

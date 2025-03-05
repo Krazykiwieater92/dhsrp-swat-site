@@ -1,44 +1,14 @@
 // g:\Web-Projects\swat-site\app\ticketpage\page.tsx
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+
+import TicketForm from "@/components/EditTicketForm";
 
 export default function Page() {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
+  return <TicketForm />;
+}
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const res = await fetch("/api/tickets", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title,
-          description,
-        }),
-      });
-      if (!res.ok) {
-        console.error("Error creating the ticket", res.statusText);
-        return;
-      }
-      const data = await res.json();
-      console.log("Ticket created successfully:", data);
-      setTitle(""); //reset the input after the creation.
-      setDescription("");
-      router.refresh(); // Refresh the data on the page.
-    } catch (error) {
-      console.error("Error:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
+/* return (
     <div className="flex mt-20 justify-center ">
       <div className="w-full max-w-md">
         <h1 className="font-bold text-4xl text-center mb-8">
@@ -97,3 +67,4 @@ export default function Page() {
     </div>
   );
 }
+*/
