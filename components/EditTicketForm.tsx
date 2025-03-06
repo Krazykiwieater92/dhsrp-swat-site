@@ -13,7 +13,7 @@ interface FormData {
   priority: number;
   progress: number;
   status: string;
-  category: "Staff/Command Application" | "Recommendation";
+  category: "Staff Application" | "Recommendation";
 }
 
 export default function TicketForm() {
@@ -26,7 +26,7 @@ export default function TicketForm() {
     priority: 1,
     progress: 0,
     status: "not started",
-    category: "Staff/Command Application",
+    category: "Staff Application",
   });
 
   const handleChange = (
