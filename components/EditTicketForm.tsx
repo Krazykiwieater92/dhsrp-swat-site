@@ -1,55 +1,73 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-
-import React, { useState } from "react";
+import { useSession } from "next-auth/react";
+import React, { useState, ChangeEvent, FormEvent } from "react";
 import { Textarea } from "./ui/textarea";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 
+interface FormData {
+  title: string;
+  description: string;
+  priority: number;
+  progress: number;
+  status: string;
+  category: "Staff/Command Application" | "Recommendation";
+}
 
 export default function TicketForm() {
   const router = useRouter();
+  const { data: session } = useSession();
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    const value = e.target.value;
-    const name = e.target.name;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const res = await fetch("/api/tickets", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ...formData,
-      }),
-    });
-    if (!res.ok) {
-      throw new Error("Failed to create ticket.");
-    }
-    router.refresh();
-    router.push("/");
-  };
-  const startingTicketData = {
+  const [formData, setFormData] = useState<FormData>({
     title: "",
     description: "",
     priority: 1,
     progress: 0,
     status: "not started",
-    category: "Staff Application",
+    category: "Staff/Command Application",
+  });
+
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const value = e.target.value;
+    const name = e.target.name;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
   };
-  const [formData, setFormData] = useState(startingTicketData);
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!session?.user?.name) {
+      console.error("No user name found in session.");
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/tickets", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+        }),
+      });
+      if (!res.ok) {
+        const errorData = await res.json();
+        console.error("Failed to create ticket. Server error:", errorData);
+        throw new Error("Failed to create ticket.");
+      }
+      router.refresh();
+      router.push("/my-tickets");
+    } catch (error) {
+      console.error("Failed to create ticket:", error);
+    }
+  };
 
   return (
     <div className="flex justify-center mt-30">
@@ -88,76 +106,8 @@ export default function TicketForm() {
           <option value="Staff/Command Application">
             Staff/Command Application
           </option>
-          <option
-            value="Recommendation"
-            className="bg-zinc-800/60 text-zinc-300 border backdrop-blur"
-          >
-            Recommendation
-          </option>
+          <option value="Recommendation">Recommendation</option>
         </select>
-
-        <label>Priority</label>
-        <div>
-          <input
-            id="priority-1"
-            name="priority"
-            type="radio"
-            onChange={handleChange}
-            value={1}
-            checked={formData.priority == 1}
-            className="radio"
-          />
-          <label>1</label>
-        </div>
-        <div>
-          <input
-            id="priority-2"
-            name="priority"
-            type="radio"
-            onChange={handleChange}
-            value={2}
-            checked={formData.priority == 2}
-            className="radio"
-          />
-          <label>2</label>
-        </div>
-        <div>
-          <input
-            id="priority-3"
-            name="priority"
-            type="radio"
-            onChange={handleChange}
-            value={3}
-            checked={formData.priority == 3}
-            className="radio"
-          />
-          <label>3</label>
-        </div>
-        <div>
-          <input
-            id="priority-4"
-            name="priority"
-            type="radio"
-            onChange={handleChange}
-            value={4}
-            checked={formData.priority == 4}
-            className="radio"
-          />
-          <label>4</label>
-        </div>
-        <div>
-          <input
-            id="priority-5"
-            name="priority"
-            type="radio"
-            onChange={handleChange}
-            value={5}
-            checked={formData.priority == 5}
-            className="radio"
-          />
-          <label>5</label>
-        </div>
-
         <label>Status</label>
         <select
           name="status"

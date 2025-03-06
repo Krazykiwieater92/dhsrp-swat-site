@@ -1,5 +1,4 @@
 // g:\Web-Projects\swat-site\app\ticketpage\page.tsx
-"use client";
 
 
 import TicketForm from "@/components/EditTicketForm";

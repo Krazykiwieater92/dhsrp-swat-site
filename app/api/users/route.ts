@@ -1,15 +1,15 @@
 import { NextResponse } from "next/server";
 import { connectToDB } from "@/lib/mongodb";
-import Ticket from "@/app/[models]/Ticket";
+import User from "@/app/[models]/Users";
 
 export async function POST(req: Request) {
   try {
     await connectToDB();
     const body = await req.json();
-    const ticketData = body;
-    const newTicket = await Ticket.create(ticketData);
+    const userData = body;
+    const newUser = await User.create(userData);
     return NextResponse.json(
-      { message: "Ticket Created", newTicket },
+      { message: "User Created", newUser },
       { status: 201 }
     );
   } catch (error) {
@@ -21,8 +21,8 @@ export async function POST(req: Request) {
 export async function GET() {
   try {
     await connectToDB();
-    const tickets = await Ticket.find().sort({ createdAt: -1 });
-    return NextResponse.json({ tickets }, { status: 200 });
+    const users = await User.find().sort({ createdAt: -1 });
+    return NextResponse.json({ users }, { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json(

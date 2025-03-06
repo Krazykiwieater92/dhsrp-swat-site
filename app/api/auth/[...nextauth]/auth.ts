@@ -1,11 +1,14 @@
+import { connectToDB } from "@/lib/mongodb";
 import NextAuth from "next-auth";
 import { Profile, Session, User, Account } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
+import NewUser from "@/app/[models]/Users"; // Import your User model
 
 interface MyDiscordProfile extends Profile {
   id: string;
   username?: string;
   global_name?: string;
+  email?: string; // Add email here, as it's needed
 }
 
 const ALLOWED_DISCORD_IDS = [
@@ -33,21 +36,43 @@ export const authOptions = {
       account: Account | null;
       profile?: Profile | undefined;
     }) {
+      await connectToDB();
+
       console.log("profile: ", profile); // Keep this for debugging
       if (account?.provider === "discord" && profile) {
         const discordProfile = profile as MyDiscordProfile; // Add this line. type assertion.
-        if (discordProfile.id) {
-          // Change all profile.id to discordProfile.id
+        if (discordProfile.id && discordProfile.email) {
+          // Added email check
           if (ALLOWED_DISCORD_IDS.includes(discordProfile.id)) {
             // Change all profile.id to discordProfile.id
             console.log(`User with ID ${discordProfile.id} is allowed.`); // Change all profile.id to discordProfile.id
+
+            try {
+              // Check if user exists
+              const userExists = await NewUser.findOne({
+                email: discordProfile.email,
+              });
+              if (!userExists) {
+                // Create user
+                await NewUser.create({
+                  email: discordProfile.email,
+                  name: discordProfile.global_name || discordProfile.username, // Use global_name if available
+                  discordId: discordProfile.id,
+                });
+                console.log(`User with email ${discordProfile.email} created.`);
+              }
+            } catch (error) {
+              console.error("Error creating or finding user:", error);
+              return false; //Reject if an error occurs.
+            }
+
             return true; // Allow sign-in
           } else {
             console.error(`User with ID ${discordProfile.id} is NOT allowed.`); // Change all profile.id to discordProfile.id
             return false; // Reject sign-in
           }
         }
-        console.error("User profile id is undefined.");
+        console.error("User profile id or email is undefined.");
         return false; //reject sign in if user data is not found.
       }
       console.error("Provider is not discord or profile is undefined.");
