@@ -55,6 +55,7 @@ export const authOptions = {
               if (!userExists) {
                 // Create user
                 await NewUser.create({
+                  username: discordProfile.username,
                   email: discordProfile.email,
                   name: discordProfile.global_name || discordProfile.username, // Use global_name if available
                   discordId: discordProfile.id,

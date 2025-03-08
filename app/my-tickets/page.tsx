@@ -1,8 +1,9 @@
 import { Badge } from "@/components/ui/badge";
+import { getServerSession } from "next-auth";
 
 const getTickets = async (): Promise<{ tickets: Ticket[] }> => {
   try {
-    const res = await fetch("http://localhost:3000/api/tickets", {
+    const res = await fetch("https://dhsrp-swat-site.vercel.app/api/tickets", {
       cache: "no-store",
     });
     return res.json();
@@ -23,6 +24,11 @@ interface Ticket {
   username: string;
   createdAt: string;
 }
+interface User {
+  name: string;
+  email: string;
+  image: string;
+}
 
 function truncateText(text: string, maxLength: number): string {
   if (text.length <= maxLength) {
@@ -40,6 +46,7 @@ export default async function Page() {
 
   return (
     <div className="block content-start">
+      <h1 className="text-center mt-20 text-4xl font-bold ">My Tickets</h1>
       <div className="grid grid-cols-4 gap-4 mt-40 mx-3">
         {tickets.length > 0 &&
           tickets.map((ticket) => (
@@ -51,7 +58,7 @@ export default async function Page() {
                 {truncateText(ticket.title, 20)}
                 <Badge className="ml-2 bg-blue-800">New</Badge>
               </h3>
-              <h2>Created by: {ticket.username}</h2>
+              <h2>Created by: </h2>
               <div className="mt-2 rounded-lg bg-zinc-900/60 backdrop-blur p-2">
                 <p>Description: {ticket.description}</p>
                 <p>Category: {ticket.category}</p>

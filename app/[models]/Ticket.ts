@@ -9,6 +9,10 @@ const ticketSchema = new Schema(
       enum: ["not started", "in progress", "done"],
       default: "not started",
     },
+    username: {
+      type: String, // New field to store the Discord username
+      
+    },
     category: {
       type: String,
       enum: ["Staff Application", "Recommendation"],

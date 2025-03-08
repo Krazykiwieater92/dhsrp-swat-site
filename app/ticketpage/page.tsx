@@ -4,6 +4,7 @@
 import TicketForm from "@/components/EditTicketForm";
 
 export default function Page() {
+  
   return <TicketForm />;
 }
 

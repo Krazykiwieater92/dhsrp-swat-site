@@ -3,12 +3,12 @@ import mongoose, { Schema } from "mongoose";
 const userSchema = new Schema(
   {
     createdAt: { type: Date, default: Date.now },
+
+    email: { type: String, required: true },
     username: {
       type: String, // New field to store the Discord username
       required: [true, "Username is required!"],
     },
-
-    email: { type: String, required: true },
     rank: {
       type: String,
       enum: [
