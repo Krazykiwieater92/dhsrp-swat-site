@@ -5,9 +5,10 @@ import Link from "next/link";
 
 const getTickets = async (): Promise<{ tickets: Ticket[] }> => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/tickets`, {
-      cache: "no-store",
-    });
+    const res = await fetch(
+      "https://dhsrp-swat-site.vercel.app/api/tickets",
+      {}
+    );
     return res.json();
   } catch (error) {
     console.error("Failed to fetch tickets", error);
