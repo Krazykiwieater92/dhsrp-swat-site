@@ -56,16 +56,11 @@ export default async function Page() {
               key={ticket._id}
               className="border border-zinc-700 rounded-xl p-4 bg-zinc-850/60"
             >
-              <Link
-                key={ticket._id}
-                href={`/ticketpage/my-tickets/${ticket._id}`}
-                className="cursor-pointer hover:underline "
-              >
-                <h3 className="font-bold text-2xl">
-                  {truncateText(ticket.title, 20)}
-                  <Badge className="ml-2 bg-blue-800">New</Badge>
-                </h3>
-              </Link>
+              <h3 className="font-bold text-2xl">
+                {truncateText(ticket.title, 20)}
+                <Badge className="ml-2 bg-blue-800">New</Badge>
+              </h3>
+
               {/* Display the ticket's username */}
               <h2>Created by: {ticket.username || "Unknown"} </h2>
               <div className="mt-2 rounded-lg bg-zinc-900/60 backdrop-blur p-2">
