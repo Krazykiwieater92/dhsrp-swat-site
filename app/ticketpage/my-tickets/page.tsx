@@ -1,9 +1,11 @@
 import { Badge } from "@/components/ui/badge";
 import { getServerSession } from "next-auth";
+import { getSession } from "next-auth/react";
+import Link from "next/link";
 
 const getTickets = async (): Promise<{ tickets: Ticket[] }> => {
   try {
-    const res = await fetch("https://dhsrp-swat-site.vercel.app/api/tickets", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/tickets`, {
       cache: "no-store",
     });
     return res.json();
@@ -21,7 +23,7 @@ interface Ticket {
   priority: number;
   progress: number;
   status: "not started" | "in progress" | "done";
-  username: string;
+  username: string; // this should now contain the username of the creator of the ticket.
   createdAt: string;
 }
 interface User {
@@ -39,7 +41,7 @@ function truncateText(text: string, maxLength: number): string {
 
 export default async function Page() {
   const { tickets } = await getTickets();
-
+  console.log("Fetched tickets!");
   const uniqueCategories: string[] = [
     ...new Set(tickets?.map(({ category }) => category)),
   ];
@@ -54,11 +56,18 @@ export default async function Page() {
               key={ticket._id}
               className="border border-zinc-700 rounded-xl p-4 bg-zinc-850/60"
             >
-              <h3 className="font-bold text-2xl">
-                {truncateText(ticket.title, 20)}
-                <Badge className="ml-2 bg-blue-800">New</Badge>
-              </h3>
-              <h2>Created by: </h2>
+              <Link
+                key={ticket._id}
+                href={`/ticketpage/my-tickets/${ticket._id}`}
+                className="cursor-pointer hover:underline "
+              >
+                <h3 className="font-bold text-2xl">
+                  {truncateText(ticket.title, 20)}
+                  <Badge className="ml-2 bg-blue-800">New</Badge>
+                </h3>
+              </Link>
+              {/* Display the ticket's username */}
+              <h2>Created by: {ticket.username || "Unknown"} </h2>
               <div className="mt-2 rounded-lg bg-zinc-900/60 backdrop-blur p-2">
                 <p>Description: {ticket.description}</p>
                 <p>Category: {ticket.category}</p>

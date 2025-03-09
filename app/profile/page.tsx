@@ -18,7 +18,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@radix-ui/react-menubar";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
+import { ChangeEvent, FormEvent, useState } from "react";
 
 export default function Page() {
   const { data: session } = useSession();

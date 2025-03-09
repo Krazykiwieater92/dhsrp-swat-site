@@ -11,7 +11,7 @@ interface FormData {
   title: string;
   description: string;
   priority: number;
-  progress: number;
+  username: string;
   status: string;
   category: "Staff Application" | "Recommendation";
 }
@@ -24,7 +24,7 @@ export default function TicketForm() {
     title: "",
     description: "",
     priority: 1,
-    progress: 0,
+    username: session?.user?.name || "",
     status: "not started",
     category: "Staff Application",
   });
@@ -63,7 +63,7 @@ export default function TicketForm() {
         throw new Error("Failed to create ticket.");
       }
       router.refresh();
-      router.push("/my-tickets");
+      router.push("/ticketpage/my-tickets");
     } catch (error) {
       console.error("Failed to create ticket:", error);
     }

@@ -11,7 +11,6 @@ const ticketSchema = new Schema(
     },
     username: {
       type: String, // New field to store the Discord username
-      
     },
     category: {
       type: String,

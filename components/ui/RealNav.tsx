@@ -10,6 +10,7 @@ import {
 import { signIn, signOut, useSession } from "next-auth/react";
 import { Badge } from "./badge";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { MenuIcon, XIcon } from "lucide-react";
 
 export default function NavbarReal() {
   const { data: session, status } = useSession();
@@ -97,7 +98,7 @@ export default function NavbarReal() {
             </MenubarItem>
 
             <MenubarItem>
-              <Link href="/my-tickets">My Tickets</Link>
+              <Link href="/ticketpage/my-tickets">My Tickets</Link>
             </MenubarItem>
           </MenubarContent>
         </MenubarMenu>
