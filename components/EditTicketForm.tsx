@@ -13,7 +13,11 @@ interface FormData {
   priority: number;
   username: string;
   status: string;
-  category: "Staff Application" | "Recommendation";
+  category:
+    | "Team Leader Application"
+    | "Supervisor Application"
+    | "Case Notes"
+    | "Recommendation";
 }
 
 export default function TicketForm() {
@@ -26,7 +30,7 @@ export default function TicketForm() {
     priority: 1,
     username: session?.user?.name || "",
     status: "not started",
-    category: "Staff Application",
+    category: "Team Leader Application",
   });
 
   const handleChange = (
@@ -63,7 +67,7 @@ export default function TicketForm() {
         throw new Error("Failed to create ticket.");
       }
       router.refresh();
-      router.push("/ticketpage/my-tickets");
+      router.push("/tickets/my-tickets");
     } catch (error) {
       console.error("Failed to create ticket:", error);
     }
@@ -104,9 +108,11 @@ export default function TicketForm() {
           className="bg-zinc-800/60 text-zinc-300 backdrop-blur h-10"
         >
           <option value="Staff/Command Application">
-            Staff/Command Application
+            Team Leader Application
           </option>
+          <option value="Supervisor Application">Supervisor Application</option>
           <option value="Recommendation">Recommendation</option>
+          <option value="Case Notes">Case Notes</option>
         </select>
         <label>Status</label>
         <select
@@ -115,7 +121,7 @@ export default function TicketForm() {
           onChange={handleChange}
           className="bg-zinc-800/60 backdrop-blur rounded-lg h-10"
         >
-          <option value="not started">Not started</option>
+          <option value="not started">Not Started</option>
           <option value="in progress">In progress</option>
           <option value="done">Done</option>
         </select>
@@ -131,3 +137,64 @@ export default function TicketForm() {
     </div>
   );
 }
+//Good looking ticket card for future reference
+/*
+ <Card className="w-full max-w-md mx-auto" onSubmit={handleSubmit}>
+        <CardHeader>
+          <CardTitle>Create New Ticket</CardTitle>
+          <CardDescription>
+            Fill out the form below to submit a new ticket
+          </CardDescription>
+        </CardHeader>
+        <form onSubmit={handleSubmit}>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label>Title</Label>
+              <Input
+                id="title"
+                type="text"
+                placeholder="Enter ticket title"
+                value={formData.title}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label>Description</Label>
+              <Textarea
+                id="description"
+                value={formData.description}
+                placeholder="Describe your issue in detail"
+                className="min-h-[120px]"
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Separator className="m-2" />
+              <Label>Category</Label>
+
+              <Select required>
+                <SelectTrigger
+                  id="category"
+                  value={formData.category}
+                >
+                  <SelectValue placeholder="Select a category" />
+                </SelectTrigger>
+                <SelectContent className="bg-zinc-800/60 backdrop-blur">
+                  <SelectItem value="recommendation">Recommendation</SelectItem>
+                  <SelectItem value="staff-app">Staff App</SelectItem>
+                  <SelectItem value="case-notes">Case Notes</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </CardContent>
+
+          <CardFooter>
+            <Button type="submit" className="w-full">
+              Submit Ticket
+            </Button>
+          </CardFooter>
+        </form>
+      </Card> */

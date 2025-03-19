@@ -92,13 +92,13 @@ export default function NavbarReal() {
           <MenubarTrigger>Tickets</MenubarTrigger>
           <MenubarContent>
             <MenubarItem>
-              <Link href="/ticketpage">
+              <Link href="/tickets">
                 Tickets <Badge className="bg-blue-800">New!</Badge>
               </Link>
             </MenubarItem>
 
             <MenubarItem>
-              <Link href="/ticketpage/my-tickets">My Tickets</Link>
+              <Link href="/tickets/my-tickets">My Tickets</Link>
             </MenubarItem>
           </MenubarContent>
         </MenubarMenu>

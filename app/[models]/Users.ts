@@ -9,6 +9,11 @@ const userSchema = new Schema(
       type: String, // New field to store the Discord username
       required: [true, "Username is required!"],
     },
+    role: {
+      type: String,
+      enum: ["admin", "user"],
+      default: "user",
+    },
     rank: {
       type: String,
       enum: [

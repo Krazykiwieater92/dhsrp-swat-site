@@ -10,18 +10,29 @@ const ticketSchema = new Schema(
       default: "not started",
     },
     username: {
-      type: String, // New field to store the Discord username
+      type: String,
+      reuired: true,
     },
     category: {
       type: String,
-      enum: ["Staff Application", "Recommendation"],
-      reuired: true,
+      enum: [
+        "Team Leader Application",
+        "Supervisor Application",
+        "Case Notes",
+        "Recommendation",
+      ],
+      required: true, // <--- Corrected: 'required'
     },
-    progress: { type: Number },
-    active: { type: Boolean },
+    progress: { type: Number, default: 0 }, //added default value.
+    active: { type: Boolean, default: false }, // added default value
+    viewed: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
+
 const Ticket = mongoose.models.Ticket || mongoose.model("Ticket", ticketSchema);
 
 export default Ticket;
