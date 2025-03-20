@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { connectToDB } from "@/lib/mongodb";
 import Ticket from "@/app/[models]/Ticket";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/auth"; // Adjust path if needed
+import { authOptions } from "../auth/[...nextauth]/config/auth"; // Correct import path
 
 // Create a new ticket
 export async function POST(req: Request) {
@@ -12,6 +12,18 @@ export async function POST(req: Request) {
 
     if (!session) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    // Access the accessToken from the session
+    const accessToken = session?.user?.accessToken;
+
+    console.log("accessToken:", accessToken);
+
+    if (!accessToken) {
+      return NextResponse.json(
+        { message: "Access token not found in session" },
+        { status: 400 }
+      );
     }
 
     const body = await req.json();
@@ -34,13 +46,18 @@ export async function POST(req: Request) {
 
 // Get only tickets belonging to the logged-in user
 export async function GET(req: Request) {
+  console.log("🔥 API /api/ticket was hit!"); // Add this at the top
   try {
     await connectToDB();
+    console.log("✅ Connected to DB!");
     const session = await getServerSession(authOptions);
 
-    if (!session) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
+    console.log("🔥 Session Data:", session); // 🔥 Check session data
+
+    // Access the accessToken from the session
+    const accessToken = session?.user?.accessToken;
+
+    console.log("accessToken:", accessToken);
 
     const userId = session?.user?.name; // Get user ID from session
 
@@ -48,7 +65,7 @@ export async function GET(req: Request) {
 
     return NextResponse.json({ tickets }, { status: 200 });
   } catch (error) {
-    console.error(error);
+    console.error("❌ API Error:", error);
     return NextResponse.json(
       { message: "Error fetching tickets", error },
       { status: 500 }

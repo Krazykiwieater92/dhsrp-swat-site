@@ -1,3 +1,6 @@
-import { handler } from "./auth";
+import { authOptions } from "./config/auth"; // Correct import path
+import NextAuth from "next-auth";
 
-export { handler as GET, handler as POST }; // Update to use the handler for all requests
+const handler = NextAuth(authOptions);
+
+export { handler as GET, handler as POST };

@@ -1,5 +1,4 @@
 import { connectToDB } from "@/lib/mongodb";
-import NextAuth from "next-auth";
 import { Profile, Session, User, Account } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
 import NewUser from "@/app/[models]/Users"; // Import your User model
@@ -9,6 +8,7 @@ interface MyDiscordProfile extends Profile {
   username?: string;
   global_name?: string;
   email?: string; // Add email here, as it's needed
+  access_token?: string; // Add access_token here
 }
 
 const ALLOWED_DISCORD_IDS = [
@@ -19,6 +19,9 @@ const ALLOWED_DISCORD_IDS = [
   "321194092899860481",
   "618595487016157184",
   "225348500580204554",
+  "889309762544631818",
+  "365701279563120642",
+  "215382771747651585",
 ];
 
 export const authOptions = {
@@ -28,6 +31,7 @@ export const authOptions = {
       clientSecret: process.env.DISCORD_CLIENT_SECRET ?? "",
     }),
   ],
+
   callbacks: {
     async signIn({
       account,
@@ -67,6 +71,9 @@ export const authOptions = {
               console.error("Error creating or finding user:", error);
               return false; //Reject if an error occurs.
             }
+            if (account) {
+              account.access_token = discordProfile.access_token;
+            }
 
             return true; // Allow sign-in
           } else {
@@ -82,10 +89,18 @@ export const authOptions = {
     },
     async session({ session, token }: { session: Session; token: any }) {
       if (session.user) {
-        const user = session.user as User & { id?: string };
+        const user = session.user as User & {
+          id?: string;
+          accessToken?: string;
+        };
         if (token.id) {
           //CHANGED FROM token.sub to token.id
           user.id = token.id; //CHANGED FROM token.sub to token.id
+          console.log(token.id)
+
+        }
+        if (token.accessToken) {
+          user.accessToken = token.accessToken;
         }
       }
       return session;
@@ -93,17 +108,19 @@ export const authOptions = {
     async jwt({
       token,
       profile,
+      account,
     }: {
       token: any;
       profile?: Profile | undefined;
+      account?: Account | null;
     }) {
       const discordProfile = profile as MyDiscordProfile | undefined; // Changed type, and added assertion
       if (discordProfile) token.id = discordProfile.id; // Changed from profile to discordProfile
+      if (account) {
+        token.accessToken = account.access_token;
+      }
+
       return token;
     },
   },
 };
-
-export const handler = NextAuth(authOptions);
-
-export const { signIn, signOut, auth } = handler;

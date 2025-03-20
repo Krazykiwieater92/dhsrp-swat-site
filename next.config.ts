@@ -6,4 +6,4 @@ const NextConfig = {
   },
 };
 
-module.exports = NextConfig;
+module.exports = { NextConfig, trailingSlash: false };

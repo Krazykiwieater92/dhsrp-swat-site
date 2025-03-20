@@ -1,19 +1,24 @@
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { getServerSession } from "next-auth";
-import { getSession } from "next-auth/react";
 import Link from "next/link";
+import { authOptions } from "@/app/api/auth/[...nextauth]/config/auth";
 
-const getTickets = async (): Promise<{ tickets: Ticket[] }> => {
+const getTickets = async (
+  session: any
+): Promise<{ tickets: Ticket[] } | undefined> => {
   try {
-    const res = await fetch(
-      "https://dhsrp-swat-site.vercel.app/api/tickets",
-      {}
-    );
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/tickets`);
+
+    console.log("Session in Page:", session);
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+
     return res.json();
   } catch (error) {
     console.error("Failed to fetch tickets", error);
-    return { tickets: [] }; // Ensure a valid return type
+    return undefined;
   }
 };
 
@@ -29,14 +34,9 @@ interface Ticket {
   priority: number;
   progress: number;
   status: "not started" | "in progress" | "done";
-  username: string; // this should now contain the username of the creator of the ticket.
+  username: string;
   createdAt: string;
   viewed: boolean;
-}
-interface User {
-  name: string;
-  email: string;
-  image: string;
 }
 
 function getCategoryColor(category: string) {
@@ -64,17 +64,22 @@ function truncateText(text: string, maxLength: number): string {
 }
 
 export default async function Page() {
-  const { tickets } = await getTickets();
+  const session = await getServerSession(authOptions); // Get the session
+
+  if (!session) {
+    return <div>You must be logged in to view this page.</div>;
+  }
+
+  const data = await getTickets(session); // Pass the session to getTickets
+  const tickets = data?.tickets;
+
   console.log("Fetched tickets!");
-  const uniqueCategories: string[] = [
-    ...new Set(tickets?.map(({ category }) => category)),
-  ];
 
   return (
     <div className="block content-start">
       <h1 className="text-center mt-20 text-4xl font-bold ">My Tickets</h1>
       <div className="grid grid-cols-4 gap-4 mt-40 mx-3">
-        {tickets.length > 0 &&
+        {tickets && tickets.length > 0 ? (
           tickets.map((ticket) => (
             <div
               key={ticket._id}
@@ -85,8 +90,6 @@ export default async function Page() {
                   {truncateText(ticket.title, 20)}
                 </h3>
               </Link>
-
-              {/* Display the ticket's username */}
               <h2>Created by: {ticket.username || "Unknown"} </h2>
               <div className="mt-2 rounded-lg bg-zinc-900/60 backdrop-blur p-2">
                 <p className=" text-xl font-bold">
@@ -107,7 +110,10 @@ export default async function Page() {
                 <p className="text-zinc-600">Ticket Id: {String(ticket._id)}</p>
               </div>
             </div>
-          ))}
+          ))
+        ) : (
+          <p>No tickets found.</p>
+        )}
       </div>
     </div>
   );
